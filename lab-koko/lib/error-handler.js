@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(err, res) {
-  let msg = err.message.toLowerCase();
+  let msg = err.message;
 
   switch(true) {
   case msg.includes('Validation Error'): 
