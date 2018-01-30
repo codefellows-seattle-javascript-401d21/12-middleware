@@ -1,0 +1,59 @@
+{
+  "name": "middleware-lab",
+  "version": "1.0.0",
+  "description": "notes ",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest -i",
+    "test:debug": "DEBUG=http* jest -i",
+    "start:watch": "nodemon index.js",
+    "start:debug": "DEBUG=http* nodemon index.js"
+  },
+  "jest": {
+    "setupFiles": [
+      "./__test__/lib/jest-setup.js"
+    ],
+    "verbose": true,
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  },
+  "author": "koko",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "fs": "0.0.1-security",
+    "jest": "^22.1.4",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0",
+    "superagent": "^3.8.2"
+  },
+  "keywords": [
+    "buliding",
+    "framework"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kowserk7/12-middleware.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kowserk7/12-middleware/issues"
+  },
+  "homepage": "https://github.com/kowserk7/12-middleware#readme"
+}
