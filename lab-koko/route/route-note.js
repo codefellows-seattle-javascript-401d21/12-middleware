@@ -1,54 +1,54 @@
 'use strict';
 
-const Story = require('../model/note');
+const Note = require('../model/note');
 const storage = require('../lib/storage');
 const bodyParser = require('body-parser').json();
 const errorHandler = require('../lib/error-handler');
 
 module.exports = function(router) {
-  router.post('/story', bodyParser, (req, res) => {
-    let newStory;
+  router.post('/note', bodyParser, (req, res) => {
+    let newNote;
 
-    new Story(req.body.book, req.body.description)
-      .then(story => newStory = story)
-      .then(story => JSON.stringify(story))
-      .then(story => storage.create('story', newStory._id, story))
-      .then(() => res.status(201).json(newStory))
+    new Note(req.body.book, req.body.description)
+      .then(note => newNote = note)
+      .then(note => JSON.stringify(note))
+      .then(note => storage.create('note', newNote._id, note))
+      .then(() => res.status(201).json(newNote))
       .catch(err => errorHandler(err, res));
   });
 
-  router.get('/story/:_id', (req, res) => {
-    storage.fetchOne('story', req.params._id)
+  router.get('/note/:_id', (req, res) => {
+    storage.fetchOne('note', req.params._id)
       .then(buffer => buffer.toString())
       .then(schema => JSON.parse(schema))
-      .then(story => res.status(200).json(story))
+      .then(note => res.status(200).json(note))
       .catch(err => errorHandler(err, res));
   });
 
-  router.get('/story', (req, res) => {
-    storage.fetchAll('story', req.params.item)
+  router.get('/note', (req, res) => {
+    storage.fetchAll('note', req.params.item)
       .then(data => data.map(id => id.split('.')[0]))
-      .then(story => res.status(200).json(story))
+      .then(note => res.status(200).json(note))
       .catch(err => errorHandler(err, res));
   });
  
-  router.put('/story/:_id', bodyParser, (req, res) => {
-    storage.fetchOne('story', req.params._id)
+  router.put('/note/:_id', bodyParser, (req, res) => {
+    storage.fetchOne('note', req.params._id)
       .then(buffer => buffer.toString())
       .then(json => JSON.parse(json))
-      .then(story => ({
+      .then(note => ({
         _id: req.params._id,
-        book: req.body.book || story.description,
-        description: req.body.description || story.description,
+        book: req.body.book || note.description,
+        description: req.body.description || note.description,
       }))
-      .then(story => JSON.stringify(story))
-      .then(json => storage.update('story', req.params._id, json))
+      .then(note => JSON.stringify(note))
+      .then(json => storage.update('note', req.params._id, json))
       .then(() => res.sendStatus(204))
       .catch(err => errorHandler(err, res));
   }); 
 
-  router.delete('/story/:_id', (req, res) => {
-    storage.destroy('story', req.params._id)
+  router.delete('/note/:_id', (req, res) => {
+    storage.destroy('note', req.params._id)
       .then(() => res.sendStatus(204))
       .catch(err => errorHandler(err, res));
   });

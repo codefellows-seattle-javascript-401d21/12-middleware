@@ -19,7 +19,7 @@
     "verbose": true,
     "testEnvironment": "node",
     "collectCoverage": true,
-    "coverageDirectory": "./coverage",
+    "coverageDirectory": "./node_modules/coverage",
     "coverageThreshold": {
       "global": {
         "branches": 80,
@@ -36,7 +36,7 @@
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
-    "fs": "0.0.1-security",
+    "file-system": "^2.2.2",
     "jest": "^22.1.4",
     "uuid": "^3.2.1"
   },

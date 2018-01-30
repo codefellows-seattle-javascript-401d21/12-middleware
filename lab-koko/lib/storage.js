@@ -3,10 +3,8 @@
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 
-// const debug = require('debug')('http:storage');
 const storage = module.exports = {};
 const basePath = `${__dirname}/../data`;
-
 
 let writer = (schema, id, json) => fs.writeFileProm(`${basePath}/${schema}/${id}.json`, json);
 let reader = (schema, id) => fs.readFileProm(`${basePath}/${schema}/${id}.json`);
