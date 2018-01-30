@@ -7,7 +7,7 @@ describe('POST api/v1/note', () => {
   beforeAll(() => server.start(process.env.PORT, (err) => console.log(`Listening on ${process.env.PORT}`)));
   afterAll(() => server.stop());
 
-  this.mockBook = {book: 'hello', description:'hello world'};
+  this.mockBook = {book: 'post', description:'post testing'};
   beforeAll(() => {
     return superagent.post(':4000/api/v1/note')
       .send(this.mockBook)
@@ -32,36 +32,21 @@ describe('POST api/v1/note', () => {
     });
   });
 
-  //   describe('invalid path', () => {
-  //     it('should return a status 404 on bad path', () => {
-  //       return superagent.post(':4000/api/v1/doesNotExist')
-  //         .send(this.mockBook)
-  //         .catch(err => {
-  //           expect(err.status).toBe(404);
-  //           expect(err.response.text).toMatch(/Path Error/); //(/path error/ i) regex check
-  //         });
-  //     });
-
-  //     it('should retrun a status 400 on bad request body', () => {
-  //       return superagent.post('4000/api/v1/note')
-  //         .send({})
-  //         .catch(err => expect(err.status).toBe(400));
-  //     });
-  //   });
-  // });
-  describe('Invalid req/res', () => {
+  describe('invalid path', () => {
     it('should return a status 404 on bad path', () => {
       return superagent.post(':4000/api/v1/doesNotExist')
-        .send(this.mockNote)
+        .send(this.mockBook)
         .catch(err => {
-          expect(err.res.status).toBe(404);
-          // expect(err.response.text).toMatch(/path error/i);
+          expect(err.status).toBe(404);
+          expect(err.response.text).toMatch(/Path Error/); //(/path error/ i) regex check
         });
     });
-    it('should return a status 400 on bad request body', () => {
+
+    it('should retrun a status 400 on bad request body', () => {
       return superagent.post(':4000/api/v1/note')
         .send({})
-        .catch(err => expect(err.res.status).toBe(400));
+        .catch(err => expect(err.status).toBe(400));
     });
   });
 });
+ 

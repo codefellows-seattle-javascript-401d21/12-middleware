@@ -1,51 +1,47 @@
-// 'use strict';
+'use strict';
 
-// const server = require('../../lib/server');
-// const superagent = require('superagent');
+const server = require('../../lib/server');
+const superagent = require('superagent');
 
-// describe('POST api/v1/note', () => {
-//   beforeAll(() => server.start(5003, () => console.log(`Listening on port 5003`)));
-//   afterAll(() => server.stop());
-
-//   this.mockNote = {title: 'hello', content:'hello world'};
-//   beforeAll(() => {
-//     return superagent.post(':5000/api/v1.note')
-//       .send(this.mockNote)
-//       .then(res => this.response = res);
-//   });
-
-//   describe('valid req/re', () => {
-//     it('should respond with a status of 201', () => {
-//       expect(this.response.status).toBe(201);
-//     });
-
-//     it('should post a new note with a title, content, and _id', () => {
-//       expect(this.response.body).toHaveProperty('title');
-//       expect(this.response.body).toHaveProperty('content');
-//       expect(this.response.body).toHaveProperty('_id');
-//     });
-
-//     it('should respond with a title of "hello" and content of "hello world"', () => {
-//       expect(this.response.body.title).toEqual(this.mockNote.title);
-//       expect(this.response.body.content).toEqual(this.mockNote.content);
-
-//     });
-//   });
-
-//   describe('invalid path', () => {
-//     it('should return a status 404 on bad path', () => {
-//       return superagent.post(':5000/api/v1/doesNotExist')
-//         .send(this.mockNote)
-//         .catch(err => {
-//           expect(err.status).toBe(404);
-//           expect(err.response.text).toMatch(/Path Error/); //(/path error/ i) regex xhexk
-//         });
-//     });
-
-//     it('should retrun a status 400 on bad request body', () => {
-//       return superagent.post('5000/api/v1/note')
-//         .send({})
-//         .catch(err => expect(err.status).toBe(400));
-//     });
-//   });
-// });
+describe('PUT api/v1/note', () => {
+  beforeAll(() => server.start(process.env.PORT, (err) => console.log(`Listening on ${process.env.PORT}`)));
+  afterAll(() => server.stop());
+  
+  describe('valid req/res', () => {
+    
+    let postOne, putOne;
+    beforeAll(() => {
+      return superagent.post(':4000/api/v1/note')
+        .send({book: 'book', description: 'description'})
+        .then( res => {
+          postOne = res;
+          return superagent.put(':4000/api/v1/note')
+            .send({book: 'book2', description: 'description 2'})
+            .then (res => {
+              putOne = res;
+            });
+        });
+    });
+    
+    it('should respond with a status code of 200', () => {
+      console.log(putOne);
+      expect(putOne.status).toBe(200);
+    });    
+    it('should update a record', () => {
+      return superagent.get(`:4000/api/v1/note?_id=${putOne.body._id}`)
+        .then (res => {
+          expect(res.body.description).toEqual('description 2');
+          expect(res.body.book).toEqual('book2');
+        });
+    });
+  });
+  
+  describe('invalid paths', () => {
+    it('should respond with an error of 400', () => {
+      return superagent.del(':4000/api/v1/note')
+        .catch (err => {
+          expect(err.status).toBe(404);
+        });
+    });
+  });
+});

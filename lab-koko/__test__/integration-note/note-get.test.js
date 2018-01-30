@@ -1,51 +1,51 @@
-// 'use strict';
+'use strict';
 
-// const server = require('../../lib/server');
-// const superagent = require('superagent');
+const server = require('../../lib/server');
+const superagent = require('superagent');
 
-// describe('POST api/v1/note', () => {
-//   beforeAll(() => server.start(5001, () => console.log(`Listening on port 5001`)));
-//   afterAll(() => server.stop());
 
-//   this.mockNote = {title: 'hello', content:'hello world'};
-//   beforeAll(() => {
-//     return superagent.post(':5000/api/v1.note')
-//       .send(this.mockNote)
-//       .then(res => this.response = res);
-//   });
+describe('POST api/v1/note', () => {
+  let getOne;
 
-//   describe('valid req/re', () => {
-//     it('should respond with a status of 201', () => {
-//       expect(this.response.status).toBe(201);
-//     });
+  describe('valid req/res', () => {
 
-//     it('should post a new note with a title, content, and _id', () => {
-//       expect(this.response.body).toHaveProperty('title');
-//       expect(this.response.body).toHaveProperty('content');
-//       expect(this.response.body).toHaveProperty('_id');
-//     });
+    beforeAll(() => server.start(process.env.PORT, (err) => console.log(`Listening on ${process.env.PORT}`)));
+    afterAll(() => server.stop());
+  
+    this.mockBook = {book:'get1', description:'get testing 1'};
+    this.mockBook2 = {book:'get2', description:'get testing 2'};
+    beforeAll(() => {
+      console.log(this.response);
+      return superagent.post(':4000/api/v1/note')
+        .send(this.mockBook)
+        .then(res => this.response = res);
+    });
+  
+    beforeAll(() => {
+      return superagent.post(':4000/api/v1/note')
+        .send(this.mockBook2)
+        .then(res => this.response = res);
+    });
 
-//     it('should respond with a title of "hello" and content of "hello world"', () => {
-//       expect(this.response.body.title).toEqual(this.mockNote.title);
-//       expect(this.response.body.content).toEqual(this.mockNote.content);
+    (() => {
+      return superagent.get(':4000/api/v1/note')
+        .then(res => getOne = res);
+    });
+    
+    it('should return an array of ids', () => {
+      getOne.body.map(id => {
+        expect(id).toMatch(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/);
+      });
+    });
+    it('should return a status code of 200', () => {
+      expect(getOne.status).toBe(200);
+    });
+    // it('should contain the two ids of records posted', () => {
 
-//     });
-//   });
+    //   console.log(this.mockBook2);
+    //   expect(getOne.body).toContain(this.mockBook.body);
+    //   expect(getOne.body).toContain(this.mockBook2.body);
+    // });
 
-//   describe('invalid path', () => {
-//     it('should return a status 404 on bad path', () => {
-//       return superagent.post(':5000/api/v1/doesNotExist')
-//         .send(this.mockNote)
-//         .catch(err => {
-//           expect(err.status).toBe(404);
-//           expect(err.response.text).toMatch(/Path Error/); //(/path error/ i) regex xhexk
-//         });
-//     });
-
-//     it('should retrun a status 400 on bad request body', () => {
-//       return superagent.post('5000/api/v1/note')
-//         .send({})
-//         .catch(err => expect(err.status).toBe(400));
-//     });
-//   });
-// });
+  });
+});
