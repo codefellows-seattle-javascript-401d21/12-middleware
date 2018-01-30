@@ -1,6 +1,6 @@
 'use strict';
 
-const Note = require('../model/story');
+const Story = require('../model/note');
 const storage = require('../lib/storage');
 const bodyParser = require('body-parser').json();
 const errorHandler = require('../lib/error-handler');
@@ -9,7 +9,7 @@ module.exports = function(router) {
   router.post('/story', bodyParser, (req, res) => {
     let newStory;
 
-    new Note(req.body.book, req.body.description)
+    new Story(req.body.book, req.body.description)
       .then(story => newStory = story)
       .then(story => JSON.stringify(story))
       .then(story => storage.create('story', newStory._id, story))
