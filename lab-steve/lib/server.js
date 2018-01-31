@@ -3,6 +3,7 @@
 // Application dependencies
 const express = require('express');
 const errorHandler = require('./error-handler');
+const debug = require('debug')('http:server');
 
 
 // Application setup
@@ -21,6 +22,7 @@ server.http = null;
 
 server.start = (port, callback) => {
   if(server.isOn) return callback(new Error('Error: Server running. Cannot start.'));
+  debug(`#server.start: starting on PORT ${port}`);
   server.isOn = true;
   server.http = app.listen(port, callback);
   return server.http;
@@ -28,6 +30,7 @@ server.start = (port, callback) => {
 
 server.stop = (callback) => {
   if(!server.isOn) return callback(new Error('Error: Server stopped. Cannot stop.'));
+  debug('#server.stop: stopping');
   server.isOn = false;
-  server.close();
+  server.http.close();
 };
