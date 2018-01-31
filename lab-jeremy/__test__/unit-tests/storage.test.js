@@ -23,6 +23,10 @@ describe('Storage Unit Tests', function() {
         return storage.fetchAll('note')
           .then(filePaths => expect(Array.isArray(filePaths)).toBeTruthy());
       });
+      it('should return an error', () => {
+        return storage.update('note', 1, testItem._id)
+          .catch(err => expect(err).toBeInstanceOf(Error));
+      });
       it('should not return the file within the list of ids', () => {
         return storage.destroy('note', testItem._id)
           .then(() => {
