@@ -60,3 +60,18 @@ This contains five methods that routes requests and responses from storage:
 * `router.get` - this has two methods, one that uses a specific id of a note to read the file and send the response back to the viewer, the other only needs the schema (in this case `note`) and returns the response from storage as a list of note ids
 * `router.put` - takes info from the http request and updates a note in storage, then sends a response back to the viewer
 * `router.delete` - takes in the http request with a specific note id, sends it to storage to `unlink` the file, then sends a status message back to the viewer
+
+---
+
+## Tests
+The test directory is separated into three subdirectories: 
+
+`integration-note` contains files to test each http method, `POST`, `GET`, `PUT`, `DELETE`.
+
+`lib` contains the jest port configuration
+
+`unit-tests` contains files to test modules that the router and server rely on for requests and responses including:
+
+ * `storage` - contains create, fetchOne, fetchAll, update, and delete
+ * `note` - builds a note promise
+ * `error-handler` - customizes error messages and returns the corresponding response
