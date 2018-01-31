@@ -12,22 +12,22 @@ app.use('/api/v1', router);
 
 // Route setup
 require('../route/route-quote')(router);
-// Exmple of other models
-// require('../route/route-category')(router);
-app.use('/*', (req, res) => errorHandler(new Error('Path Error. Route not found.'), res));
+app.use('/{0,}', (req, res) => errorHandler(new Error('Path Error. Route not found.'), res));
 
 // Server controls
 const server = module.exports = {};
 server.isOn = false;
+server.http = null;
 
 server.start = (port, callback) => {
   if(server.isOn) return callback(new Error('Error: Server running. Cannot start.'));
   server.isOn = true;
-  return app.listen(port, callback);
+  server.http = app.listen(port, callback);
+  return server.http;
 };
 
 server.stop = (callback) => {
   if(!server.isOn) return callback(new Error('Error: Server stopped. Cannot stop.'));
   server.isOn = false;
-  return app.close(callback);
+  server.close();
 };

@@ -26,22 +26,24 @@ module.exports = function(router) {
   // Get all the quotes
   router.get('/quote', (req, res) => {
     storage.fetchAll('quote')
-      .then(buffer => buffer.toString())
-      .then(str => str.split(','))
-      .then(arr => arr.map(e => e.split('.')[0]))
-      .then(quotes => res.status(200).json(quotes))
+      .then(fnames => fnames.map(e => e.split('.')[0]))
+      .then(ids => res.status(200).json(ids))
       .catch(err => errorHandler(err, res));
   });
 
   // Update a quote
   router.put('/quote/:_id', bodyParser, (req, res) => {
-    new Quote(req.body.author, req.body.quote)
-      .then(quote => {
-        quote._id = req.params._id;
-        return quote;
-      })
-      .then(quote => storage.update('quote', quote._id, quote))
-      .then(quote => res.status(204).json(quote))
+    storage.fetchOne('quote', req.params._id)
+      .then(buffer => buffer.toString())
+      .then(json => JSON.parse(json))
+      .then(quote => ({
+        _id: req.params._id,
+        quote: req.body.quote || quote.quote,
+        author: req.body.author || quote.author,
+      }))
+      .then(quote => JSON.stringify(quote))
+      .then(json => storage.update('quote', req.params._id, json))
+      .then(() => res.sendStatus(204))
       .catch(err => errorHandler(err, res));
   });
 

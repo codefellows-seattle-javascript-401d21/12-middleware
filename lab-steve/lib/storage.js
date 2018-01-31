@@ -1,16 +1,14 @@
 'use strict';
 
 const Promise = require('bluebird');
-// Promisify fs librarye
+// Promisify fs library
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 
 const storage = module.exports = {};
 
-storage.create = (schema, item) => {
-  let json = JSON.stringify(item);
-  return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, json)
+storage.create = (schema, item) =>
+  fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, JSON.stringify(item))
     .then(() => item);
-};
 
 // Read the file for the _id in a Buffer
 storage.fetchOne = (schema, itemId) =>
@@ -20,13 +18,10 @@ storage.fetchOne = (schema, itemId) =>
 storage.fetchAll = (schema) =>
   fs.readdirProm(`${__dirname}/../data/${schema}`);
 
-storage.update = (schema, itemId, item) => {
-  let json = JSON.stringify(item);
-  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, json)
+storage.update = (schema, itemId, item) =>
+  fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, JSON.stringify(item))
     .then(() => item);
-};
 
-storage.destroy = (schema, itemId) => {
-  return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`)
+storage.destroy = (schema, itemId) =>
+  fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`)
     .then(() => itemId);
-};
