@@ -25,6 +25,8 @@ describe('POST /api/v1/quote', function () {
         .send(this.mockQuote)
         .then(res => this.response = res);
     });
+    // Delete that note now
+    afterAll(() => superagent.delete(`${this.endpoint}/quote/${this.response.body._id}`));
 
     it('should respond with a 200 status', () => {
       return superagent.get(`${this.endpoint}/quote/${this.response.body._id}`)
@@ -57,6 +59,15 @@ describe('POST /api/v1/quote', function () {
   });
 
   describe('Invalid req/res', () => {
+    // First, create a quote
+    beforeAll(() => {
+      return superagent.post(`${this.endpoint}/quote`)
+        .send(this.mockQuote)
+        .then(res => this.response = res);
+    });
+    // Delete that note now
+    afterAll(() => superagent.delete(`${this.endpoint}/quote/${this.response.body._id}`));
+
     it('should return a status 404 on bad path', () => {
       return superagent.get(`${this.endpoint}/fakepath`)
         .catch(err => {
