@@ -19,7 +19,7 @@ describe('DELETE  api/v1/note', () => {
           .then(res => this.responseTwo = res);
       });
   });
-  describe('DELETE /api/v1/note', () => {
+  describe('Valid req/res', () => {
     it('should return with a status of 204', () => {
       return superagent.delete(`:4000/api/v1/note/${this.responseTwo.body._id}`)
         .then(res => {
@@ -30,6 +30,15 @@ describe('DELETE  api/v1/note', () => {
       return superagent.get(`:4000/api/v1/note/${this.responseTwo.body._id}`)
         .catch(res => {
           expect(res.status).toBe(404);
+        });
+    });
+  });
+
+  describe('invalid paths', () => {
+    it('should return with an error of 404', () => {
+      return superagent.delete(':4000/api/v1/note/')
+        .catch(err => {
+          expect(err.status).toBe(404);
         });
     });
   });
