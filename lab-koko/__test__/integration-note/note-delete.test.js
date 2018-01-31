@@ -20,9 +20,7 @@ describe('DELETE  api/v1/note', () => {
       });
   });
   describe('DELETE /api/v1/note', () => {
-    // console.log(this.responseOne);
     it('should return with a status of 204', () => {
-      console.log(this.responseTwo.body._id);
       return superagent.delete(`:4000/api/v1/note/${this.responseTwo.body._id}`)
         .then(res => {
           expect(res.status).toBe(204);
