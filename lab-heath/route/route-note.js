@@ -4,7 +4,6 @@ const Note = require('../model/note');
 const storage = require('../lib/storage');
 const bodyParser = require('body-parser').json();
 const errorHandler = require('../lib/error-handler');
-const debug = require('debug')('http:route-note');
 
 module.exports = function(router) {
   
