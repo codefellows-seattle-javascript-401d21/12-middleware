@@ -1,4 +1,4 @@
-# 11 Express
+# 12 Middleware
 
 ## Installation 
 To get started fork then clone this repository to your machine, then navigate to the folder ```lab-dean```. Type ```npm install``` to install the dependencies needed. Then I recommend acquiring the program HTTPie to run the commands.
