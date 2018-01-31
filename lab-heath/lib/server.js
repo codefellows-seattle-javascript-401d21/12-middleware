@@ -2,6 +2,7 @@
 
 // Application dependencies
 const express = require('express');
+const cors = require('cors');
 const errorHandler = require('./error-handler');
 
 
@@ -11,6 +12,7 @@ const router = express.Router();
 app.use('/api/v1/note', router);
 app.use('/api/v1/cat', router);
 // app.use(bodyParser) // Applies the package to every route in the app
+app.use(cors());
 
 // Route setup
 require('../route/route-note')(router);
@@ -20,15 +22,16 @@ app.use('/{0,}', (req, res) => errorHandler(new Error('Path Error. Route not fou
 // Server controls
 const server = module.exports = {};
 server.isOn = false;
+server.http = null;
 
 server.start = function(port, callback) {
   if(server.isOn) return callback(new Error('Server running. Cannot start server again.'));
   server.isOn = true;
-  return app.listen(port, callback);
+  server.http = app.listen(port, callback);
 };
 
 server.stop = function(callback) {
   if(!server.isOn) return callback(new Error('Server not running. You\'re dumb. Don\'t do that.'));
   server.isOn = false;
-  return app.close(callback);
+  server.http.close();
 };
