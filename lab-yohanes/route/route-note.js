@@ -5,6 +5,7 @@ const Note = require('../model/note.js');
 const storage = require('../lib/storage.js');
 const bodyParser = require('body-parser').json(); //stringifiy
 const errorHandler = require('../lib/error-handler.js');
+const dotenv = require('dotenv');
 
 module.exports = function (router) {
   router.post('/note', bodyParser, (req, res) => { //creating pathway
