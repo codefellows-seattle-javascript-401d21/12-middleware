@@ -39,17 +39,17 @@ describe('GET api/v1/note', () => {
       expect(getArray.body).toContain(this.responseOne.body._id);
       expect(getArray.body).toContain(this.responseTwo.body._id);
     });
+  });
 
-    describe('ivalid paths', () => {
-      it('should return a status 404 on bad path', () => {
-        beforeAll(() => {
-          return superagent.get(':4000/api/v1/DoesNotExist')
-            .send(this.mockBook)
-            .catch(res => {
-              expect(res.status).toBe(404);
-              expect(err.res.text).toMatch(/Path Error/i);
-            }); 
-        });
+  describe('ivalid paths', () => {
+    it('should return a status 404 on bad path', () => {
+      beforeAll(() => {
+        return superagent.get(':4000/api/v1/DoesNotExist')
+          .send(this.mockBook)
+          .catch(res => {
+            expect(res.status).toBe(404);
+            expect(err.res.text).toMatch(/Path Error/i);
+          }); 
       });
     });
   });
