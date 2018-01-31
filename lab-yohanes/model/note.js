@@ -1,14 +1,15 @@
-'use strict'
+'use strict';
 
-const uuid = require('uuid/v4')
+const uuid = require('uuid/v4');
 
+//Export our content constructor
 module.exports = function Note(title, content) { //body  title and body content wwe will be using in other files.
   return new Promise((resolve, reject) => {
-    if(!title || !content) return new reject(new Error('Validation Error. Cannot create note. Title and Content required.'))
-    this._id = uuid()
-    this.title = title
-    this.content = content
+    if(!title || !content) return new reject(new Error('Validation Error. Cannot create note. Title and Content required.'));
+    this._id = uuid();
+    this.title = title;
+    this.content = content;
 
-    return resolve(this)
-  })
-}
+    return resolve(this);
+  });
+};

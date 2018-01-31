@@ -1,5 +1,7 @@
 'use strict';
 
+'use strict';
+
 require('jest');
 
 describe('testing testing', function () {
