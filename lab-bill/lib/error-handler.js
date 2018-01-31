@@ -2,7 +2,6 @@
 
 module.exports = function(err, res) {
   let msg = err.message.toLowerCase();
-  console.log(msg);
   switch(true) {
   case msg.includes('validation error'): return res.status(400).send(`${err.name}: ${err.message}`);
   case msg.includes('enoent'): return res.status(404).send(`${err.name}: ${err.message}`);

@@ -54,7 +54,7 @@ describe('DELETE /api/v1/note', function() {
         });
     });
     it('should return a status 404 on bad id request', () => {
-      return superagent.get(':4000/api/v1/note/1234')
+      return superagent.delete(':4000/api/v1/note/1234')
         .catch(err => {
           expect(err.status).toBe(404);
           expect(err.response.text).toMatch(/enoent/i);
