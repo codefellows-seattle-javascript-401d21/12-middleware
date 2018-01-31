@@ -1,0 +1,56 @@
+{
+  "name": "express-middleware",
+  "version": "1.0.0",
+  "description": "12: Middleware",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest -i",
+    "lint": "eslint .",
+    "test:watch": "jest -i --watchAll",
+    "test:debug": "DEBUG=http* jest -i",
+    "start:watch": "nodemon index.js",
+    "start:debug": "DEBUG=http* nodemon index.js"
+  },
+  "jest": {
+    "setupFiles": [
+      "./__test__/lib/jest-setup.js"
+    ],
+    "verbose": true,
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage",
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevegcarpenter/11-express.git"
+  },
+  "author": "Steve Carpenter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stevegcarpenter/11-express/issues"
+  },
+  "homepage": "https://github.com/stevegcarpenter/11-express#readme",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "jest": "^22.1.4",
+    "nodemon": "^1.14.11",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "dotenv": "^5.0.0",
+    "superagent": "^3.8.2"
+  }
+}
