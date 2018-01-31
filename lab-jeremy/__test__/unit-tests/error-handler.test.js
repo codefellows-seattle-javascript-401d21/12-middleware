@@ -4,27 +4,6 @@ const errHandler = require('../../lib/error-handler');
 require('jest');
 
 
-
-// class res {
-//   constructor(err)
-//   {
-//     this.error = err;
-//     this.code = null;
-//     this.message = null;
-//   }
-
-//   status(code) {
-//     this.code = code;
-//     return this;
-//   }
-
-//   send(message) {
-//     this.message = message;
-//     return this;
-//   }
-// }
-
-
 describe('Error-handler testing', function() {
   this.validation = new Error('Validation Error: Cannot update file with unmatched ID');
   this.path = new Error('Path Error. Route not found.');
