@@ -10,10 +10,6 @@ describe('POST /api/v1/note', function() {
   beforeAll(() => server.start(process.env.PORT, (err) => console.log(`Listening on ${process.env.PORT}`)))
   afterAll(() => server.stop())
 
-  // describe('Testing server methods', () => {
-  //   expect(server.start(process.env.PORT)).toBeInstanceOf(Error)
-  // })
-
   describe('Valid req/res', () => {
     beforeAll(() => {
       return superagent.post(':4000/api/v1/note')

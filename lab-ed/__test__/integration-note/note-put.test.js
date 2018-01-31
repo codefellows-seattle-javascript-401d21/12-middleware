@@ -3,7 +3,7 @@
 const server = require('../../lib/server')
 require('jest')
 
-describe('POST /api/v1/note', function () {
+describe('PUT /api/v1/note', function () {
   beforeAll(() => server.start(process.env.PORT, (err) => console.log(`Listening on ${process.env.PORT}`)))
   afterAll(() => server.stop())
   describe('Valid req/res', () => {
