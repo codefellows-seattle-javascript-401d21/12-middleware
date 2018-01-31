@@ -1,51 +1,38 @@
-// 'use strict';
+'use strict';
 
-// const server = require('../../lib/server');
-// const superagent = require('superagent');
+const server = require('../../lib/server');
+const superagent = require('superagent');
 
-// describe('POST api/v1/note', () => {
-//   beforeAll(() => server.start(5004, () => console.log(`Listening on port 5004`)));
-//   afterAll(() => server.stop());
-
-//   this.mockNote = {title: 'hello', content:'hello world'};
-//   beforeAll(() => {
-//     return superagent.post(':5000/api/v1.note')
-//       .send(this.mockNote)
-//       .then(res => this.response = res);
-//   });
-
-//   describe('valid req/re', () => {
-//     it('should respond with a status of 201', () => {
-//       expect(this.response.status).toBe(201);
-//     });
-
-//     it('should post a new note with a title, content, and _id', () => {
-//       expect(this.response.body).toHaveProperty('title');
-//       expect(this.response.body).toHaveProperty('content');
-//       expect(this.response.body).toHaveProperty('_id');
-//     });
-
-//     it('should respond with a title of "hello" and content of "hello world"', () => {
-//       expect(this.response.body.title).toEqual(this.mockNote.title);
-//       expect(this.response.body.content).toEqual(this.mockNote.content);
-
-//     });
-//   });
-
-//   describe('invalid path', () => {
-//     it('should return a status 404 on bad path', () => {
-//       return superagent.post(':5000/api/v1/doesNotExist')
-//         .send(this.mockNote)
-//         .catch(err => {
-//           expect(err.status).toBe(404);
-//           expect(err.response.text).toMatch(/Path Error/); //(/path error/ i) regex xhexk
-//         });
-//     });
-
-//     it('should retrun a status 400 on bad request body', () => {
-//       return superagent.post('5000/api/v1/note')
-//         .send({})
-//         .catch(err => expect(err.status).toBe(400));
-//     });
-//   });
-// });
+describe('DELETE  api/v1/note', () => {
+  beforeAll(() => server.start(process.env.PORT, (err) => console.log(`Listening on ${process.env.PORT}`)));
+  afterAll(() => server.stop());
+  
+  this.postOne = {book:'book', description:'description'};
+  this.postTwo = {book:'book2', description:'content2'};
+  beforeAll(() => {
+    return superagent.post(':4000/api/v1/note')
+      .send(this.postOne)
+      .then(res => {
+        this.responseOne = res;
+        return superagent.post(':4000/api/v1/note')
+          .send(this.postTwo)
+          .then(res => this.responseTwo = res);
+      });
+  });
+  describe('DELETE /api/v1/note', () => {
+    // console.log(this.responseOne);
+    it('should return with a status of 204', () => {
+      console.log(this.responseTwo.body._id);
+      return superagent.delete(`:4000/api/v1/note/${this.responseTwo.body._id}`)
+        .then(res => {
+          expect(res.status).toBe(204);
+        });
+    });
+    it('should check that the record was deleted', () => {
+      return superagent.get(`:4000/api/v1/note/${this.responseTwo.body._id}`)
+        .catch(res => {
+          expect(res.status).toBe(404);
+        });
+    });
+  });
+});
