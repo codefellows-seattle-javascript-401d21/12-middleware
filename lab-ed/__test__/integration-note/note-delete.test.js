@@ -14,17 +14,17 @@ describe('DELETE /api/v1/note', function() {
     beforeAll(() => {
       return superagent.post(':4000/api/v1/note')
         .send(this.mockNote)
-        .then(res => this.response = res);
-    });
+        .then(res => this.response = res)
+    })
     describe('DELETE /api/v1/note', () => {
       it('should respond with a status of 204', () => {
         return superagent.delete(`:4000/api/v1/note/${this.response.body._id}`)
           .then(res => {
-            expect(res.status).toBe(204);
-          });
-      });
-    });
-  });
+            expect(res.status).toBe(204)
+          })
+      })
+    })
+  })
   
   describe('Invalid req/res', () => {
     it('should return a status 404 on bad path', () => {
