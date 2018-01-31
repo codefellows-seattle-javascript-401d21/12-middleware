@@ -44,11 +44,20 @@ describe('PUT api/v1/note', () => {
       expect(this.responseThree.body).toHaveProperty('_id');
     });
   });
+
+
   describe('invalid paths', () => {
     it('should respond with an error of 404', () => {
-      return superagent.del(':4000/api/v1/note')
+      return superagent.put(':4000/api/v1/note')
         .catch(err => {
           expect(err.status).toBe(404);
+        });
+    });
+    it('should return an error when when no update info is given', () => {
+      return superagent.put(`:4000/api/v1/note/${this.responseThree.body._id}`)
+        .send({})
+        .catch(err => {
+          expect(err.status).toBe(40);
         });
     });
   });
