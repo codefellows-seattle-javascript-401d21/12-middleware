@@ -23,8 +23,8 @@ Currently `quote` is the only data category supported using this REST Express AP
 -`author`: The quote's author
 
 The following HTTP routes are supported:
--POST: `/note` with the `quote` and `author` data fields provided in the body
--GET: Both `/note` to fetch all quotes and `/note/:_id` to get a single quote
+-POST: `/quote` with the `quote` and `author` data fields provided in the body
+-GET: Both `/quote` to fetch all quotes and `/quote/:_id` to get a single quote
 -PUT: `/quote:_id` with updated `quote` and `author` fields in the body
 -DELETE: `/quote/:_id`
 
