@@ -1,14 +1,29 @@
 'use strict';
 
-// const errorHandler = require('../../lib/error-handler.js');
+const errHand = require('../../lib/error-handler');
 require('jest');
 
-let errOne = new Error('validation error');
-errOne.res = null;
+describe('error-handler', function() {
+  this.validation = new Error('Validation error: Cannot create note, subject or comment missing');
+  this.res = { status: function(stat){this.statusCode = stat; return this; }, send: function(msg){this.message  = msg; return this;}};
 
-
-describe('Error Handler', function() {
-  it('should return a 400 status for a validation error', () => {
-    expect(true).toBe(true); // need to work on this
+  this.enoent = new Error('enoent');
+  this.path_error = new Error('path error');
+  this.fail = new Error('fail');
+  it('should respond with a status of 400', () => {
+    let errRes = errHand(this.validation, this.res);
+    expect(errRes.statusCode).toEqual(400);
+  });
+  it('should respond with a status of 404', () => {
+    let errRes = errHand(this.enoent, this.res);
+    expect(errRes.statusCode).toEqual(404);
+  });
+  it('should respond with a status of 404', () => {
+    let errRes = errHand(this.path_error, this.res);
+    expect(errRes.statusCode).toEqual(404);
+  });
+  it('should respond with a status of 500', () => {
+    let errRes = errHand(this.fail, this.res);
+    expect(errRes.statusCode).toEqual(500);
   });
 });
