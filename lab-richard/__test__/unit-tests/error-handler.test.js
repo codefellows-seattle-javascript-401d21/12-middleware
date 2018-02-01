@@ -1,7 +1,7 @@
-'use strict';
+// 'use strict';
 
-require('jest');
+// require('jest');
 
-describe('testing ummy', function() {
-    it('should return true', () => expect(true).toBeTruthy());
-});
+// describe('testing ummy', function() {
+//     it('should return true', () => expect(true).toBeTruthy());
+// });

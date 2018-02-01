@@ -9,7 +9,6 @@ const debug = require('debug')('http:route-note');
 module.exports = function(router) {
     router.post('/note', bodyParser, (request, response) => {
         debug('#router.post create');
-
         let newNote;
         new Note(request.body.title, request.body.content)
             .then(note => newNote = note)

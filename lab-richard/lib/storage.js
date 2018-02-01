@@ -6,7 +6,7 @@ const debug = require('debug')('http:storage');
 
 const storage = module.exports = {};
 const basePath = `${__dirname}/../data`;
-
+console.log(basePath);
 
 let writer = (schema, path, itemId, json) => fs.writeFileProm(`${basePath}/${schema}/${itemId}.json`, json);
 let reader = (schema, path, itemId) => fs.readFileProm(`${basePath}/${schema}/${itemId}.json`);
