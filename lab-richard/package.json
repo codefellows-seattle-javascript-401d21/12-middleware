@@ -1,0 +1,38 @@
+{
+  "name": "lab-richard",
+  "version": "1.0.0",
+  "description": "Code 12 Express Tests",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest -i",
+    "lint": "eslint .",
+    "test:watch": "jest -i --watchAll",
+    "test:debug": "DEBUG=http* jest -i",
+    "start:watch": "nodemon index.js",
+    "start:debug": "DEBUG=http* nodemon index.js"
+  },
+  "jest": {
+    "setupFiles": [
+      "./__test__/lib/jest-setup.js"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^5.0.0",
+    "eslint": "^4.16.0",
+    "eslint-plugin-react": "^7.6.1",
+    "jest": "^22.1.4",
+    "superagent": "^3.8.2"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "uuid": "^3.2.1"
+  }
+}
