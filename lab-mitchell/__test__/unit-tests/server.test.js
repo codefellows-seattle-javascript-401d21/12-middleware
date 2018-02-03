@@ -16,7 +16,7 @@ describe('#server-test', () => {
     server.stop()
       .then(server.stop)
       .catch(err => {
-        expect(err.message).toMatch(/server not running/i)
+        expect(err.message).toMatch(/server not running/i);
       });
   });
 });

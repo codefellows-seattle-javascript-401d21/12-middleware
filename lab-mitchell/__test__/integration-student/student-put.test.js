@@ -2,7 +2,6 @@
 
 const server = require('../../lib/server');
 const superagent = require('superagent');
-const errorHandler = require('../../lib/error-handler');
 require('jest');
 
 describe('#student-put.test.js', function () {
