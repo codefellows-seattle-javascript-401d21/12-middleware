@@ -1,6 +1,6 @@
 'use strict';
 
-const Promise = require('bluebird'); //overwrites defaul promise
+const Promise = require('bluebird'); //overwrites default promise
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'}); //promisifies files, gives suffix
 const storage = module.exports = {};
 // const errorHandler = require('../lib/error-handler');
@@ -15,7 +15,7 @@ let reader = (schema, id) => //optionally id
   fs.readFileProm(`${basePath}/${schema}/${id}.json`); //returns buffer
 
 storage.create = (schema, id, item) => writer(schema, id, item);
-storage.fetchOne= (schema, itemId) => reader(schema, itemId);
+storage.fetchOne = (schema, id) => reader(schema, id);
 storage.fetchAll = (schema) => fs.readdirProm(`${basePath}/${schema}`);
-storage.destroy = (schema, itemId) => fs.unlinkProm(`${basePath}/${schema}/${itemId}.json`);
-storage.update = (schema, itemId, item) => writer(schema, itemId, item);
+storage.destroy = (schema, id) => fs.unlinkProm(`${basePath}/${schema}/${id}.json`);
+storage.update = (schema, id, item) => writer(schema, id, item);

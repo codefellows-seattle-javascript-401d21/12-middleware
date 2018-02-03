@@ -18,6 +18,11 @@ describe('#student-delete.test.js', function () {
         .catch(err => errorHandler(err));
     });
 
+    afterAll(() => {
+      return superagent.delete(`:4001/api/v1/student/${this.response.body._id}`)
+        .catch(err => errorHandler(err));
+    });
+
     it('should DELETE a student with ID, respond with status 204', () => {
       return superagent.delete(`:4001/api/v1/student/${this.response.body._id}`)
         .then(res => this.response = res)
@@ -34,6 +39,11 @@ describe('#student-delete.test.js', function () {
       return superagent.post(':4001/api/v1/student')
         .send(this.testStudent)
         .then(res => this.response = res)
+        .catch(err => errorHandler(err));
+    });
+
+    afterAll(() => {
+      return superagent.delete(`:4001/api/v1/student/${this.response.body._id}`)
         .catch(err => errorHandler(err));
     });
 

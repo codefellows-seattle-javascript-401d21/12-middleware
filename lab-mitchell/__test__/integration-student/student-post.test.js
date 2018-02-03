@@ -18,6 +18,10 @@ describe('#student-post.test.js', function () {
         .then(res => this.response = res);
     });
 
+    afterAll(() => {
+      return superagent.delete(`:4004/api/v1/student/${this.response.body._id}`);
+    });
+
     it('should respond with a status of 201', () => {
       expect(this.response.status).toBe(201);
     });

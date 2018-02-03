@@ -2,7 +2,6 @@
 
 const server = require('../../lib/server');
 const superagent = require('superagent');
-const errorHandler = require('../../lib/error-handler');
 require('jest');
 
 describe('#student-put.test.js', function () {
@@ -15,6 +14,10 @@ describe('#student-put.test.js', function () {
       return superagent.post(':4004/api/v1/student')
         .send(this.testStudent)
         .then(res => this.response = res);
+    });
+
+    afterAll(() => {
+      return superagent.delete(`:4004/api/v1/student/${this.response.body._id}`);
     });
 
     let testPut = {name: 'warga', city: 'blarga'};
@@ -43,6 +46,10 @@ describe('#student-put.test.js', function () {
       return superagent.post(':4004/api/v1/student')
         .send(this.testStudent)
         .then(res => this.response = res);
+    });
+    
+    afterAll(() => {
+      return superagent.delete(`:4004/api/v1/student/${this.response.body._id}`);
     });
 
     it('should return a status 404 on bad path', () => {
