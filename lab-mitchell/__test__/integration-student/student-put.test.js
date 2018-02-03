@@ -16,6 +16,10 @@ describe('#student-put.test.js', function () {
         .then(res => this.response = res);
     });
 
+    afterAll(() => {
+      return superagent.delete(`:4004/api/v1/student/${this.response.body._id}`);
+    });
+
     let testPut = {name: 'warga', city: 'blarga'};
 
     it('should PUT a new student with name and city, respond with 204', () => {
@@ -42,6 +46,10 @@ describe('#student-put.test.js', function () {
       return superagent.post(':4004/api/v1/student')
         .send(this.testStudent)
         .then(res => this.response = res);
+    });
+    
+    afterAll(() => {
+      return superagent.delete(`:4004/api/v1/student/${this.response.body._id}`);
     });
 
     it('should return a status 404 on bad path', () => {
