@@ -25,6 +25,11 @@ describe('Route Testing', () => {
           .send(this.mockQuote)
           .then(res => expect(res.status).toBe(204));
       });
+
+      it('Should respond with the updated quote', () => {
+        return superagent.get(`${endpoint}/${this.mockQuote._id}`)
+          .then(res => expect(JSON.parse(res.text).author).toBe('Tim'));
+      });
     });
   });
 });
