@@ -2,9 +2,8 @@
 
 const server = require('../../lib/server');
 const superagent = require('superagent');
-require('jest');
 
-describe('POST /api/v1/quote', function () {
+describe('GET /api/v1/quote', function () {
   this.endpoint = ':4000/api/v1';
   this.mockQuote = {quote: 'Tis the day', author: 'Steve'};
   // Start the server
@@ -18,14 +17,14 @@ describe('POST /api/v1/quote', function () {
   // Stop the server
   afterAll(() => server.stop());
 
-  describe('Valid req/res', () => {
+  describe('Valid', () => {
     // First, create a quote
     beforeAll(() => {
       return superagent.post(`${this.endpoint}/quote`)
         .send(this.mockQuote)
         .then(res => this.response = res);
     });
-    // Delete that note now
+    // Delete that quote now
     afterAll(() => superagent.delete(`${this.endpoint}/quote/${this.response.body._id}`));
 
     it('should respond with a 200 status', () => {
@@ -33,7 +32,7 @@ describe('POST /api/v1/quote', function () {
         .then(res => expect(res.status).toBe(200));
     });
 
-    it('should respond with the mock note data', () => {
+    it('should respond with the mock quote data', () => {
       return superagent.get(`${this.endpoint}/quote/${this.response.body._id}`)
         .then(res => {
           expect(res.body.quote).toBe(this.mockQuote.quote);
@@ -58,14 +57,14 @@ describe('POST /api/v1/quote', function () {
     });
   });
 
-  describe('Invalid req/res', () => {
+  describe('Invalid', () => {
     // First, create a quote
     beforeAll(() => {
       return superagent.post(`${this.endpoint}/quote`)
         .send(this.mockQuote)
         .then(res => this.response = res);
     });
-    // Delete that note now
+    // Delete that quote now
     afterAll(() => superagent.delete(`${this.endpoint}/quote/${this.response.body._id}`));
 
     it('should return a status 404 on bad path', () => {
