@@ -38,6 +38,7 @@ module.exports = function(router) {
   // Update a quote
   router.put('/quote/:_id', bodyParser, (req, res) => {
     debug(`#router.put: req.params._id: ${req.params._id}`);
+
     storage.fetchOne('quote', req.params._id)
       .then(buffer => buffer.toString())
       .then(json => JSON.parse(json))
@@ -46,8 +47,7 @@ module.exports = function(router) {
         quote: req.body.quote || quote.quote,
         author: req.body.author || quote.author,
       }))
-      .then(quote => JSON.stringify(quote))
-      .then(json => storage.update('quote', req.params._id, json))
+      .then(item => storage.update('quote', req.params._id, item))
       .then(() => res.sendStatus(204))
       .catch(err => errorHandler(err, res));
   });

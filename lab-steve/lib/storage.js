@@ -27,12 +27,10 @@ storage.fetchAll = (schema) => {
 
 storage.update = (schema, itemId, item) => {
   debug(`storage.update: schema: "${schema}", itemId: "${itemId}", item.quote: "${item.quote}", item.author: "${item.author}"`);
-  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, JSON.stringify(item))
-    .then(() => item);
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, JSON.stringify(item));
 };
 
 storage.destroy = (schema, itemId) => {
   debug(`storage.destroy: schema: ${schema}, itemId: ${itemId}`);
-  fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`)
-    .then(() => itemId);
+  return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
 };

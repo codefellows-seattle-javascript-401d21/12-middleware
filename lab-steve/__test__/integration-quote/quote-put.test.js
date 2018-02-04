@@ -2,28 +2,44 @@
 
 const server = require('../../lib/server');
 const superagent = require('superagent');
-require('jest');
 
-describe('POST /api/v1/note', function () {
-  this.mockQuote = {quote: 'Tis the day', author: 'Steve'};
-  this.endpoint = ':4000/api/v1';
-
-  // Start the server
-  beforeAll(() => server.start(process.env.PORT, (err) => {
-    if (err) {
-      console.error(`Error Starting Server: ${err}`);
-      return;
-    }
-    console.log(`Listening on PORT ${process.env.PORT}`);
-  }));
-  // Stop the server
+describe('PUT /api/v1/quote', () => {
+  let PORT = process.env.PORT;
+  let endpoint = `:${PORT}/api/v1/quote`;
+  this.mockQuote = { quote: 'Over the hills', author: 'Joe' };
+  beforeAll(() => server.start(PORT, () => console.log(`listening on ${PORT}`)));
   afterAll(() => server.stop());
-
-  describe('Valid req/res', () => {
-    it('should return true', () => expect(true).toBeTruthy());
+  beforeAll(() => {
+    return superagent.post(endpoint)
+      .send(this.mockQuote)
+      .then(res => this.response = res)
+      .then(() => this.mockQuote._id = this.response.body._id);
   });
 
-  describe('Invalid req/res', () => {
-    it('should return true', () => expect(true).toBeTruthy());
+  describe('Valid', () => {
+    it('should respond with 204 status', () => {
+      this.mockQuote.author = 'Tim';
+      return superagent.put(`${endpoint}/${this.mockQuote._id}`)
+        .send(this.mockQuote)
+        .then(res => expect(res.status).toBe(204));
+    });
+
+    it('should respond with the updated quote', () => {
+      return superagent.get(`${endpoint}/${this.mockQuote._id}`)
+        .then(res => expect(JSON.parse(res.text).author).toBe('Tim'));
+    });
+  });
+
+  describe('Invalid', () => {
+    it('should respond with 204 status when a bogus path is requested', () => {
+      return superagent.put(`${endpoint}/fakepath`)
+        .send({quote: 'Yowzers', author: 'Mike'})
+        .catch(err => expect(err.status).toBe(404));
+    });
+
+    it('should return a 400 status when no body is sent', () => {
+      return superagent.put(`${endpoint}/${this.mockQuote._id}`)
+        .catch(err => expect(err.status).toBe(400));
+    });
   });
 });
