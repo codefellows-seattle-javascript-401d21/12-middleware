@@ -40,15 +40,4 @@ describe('POST /api/v1/book', () => {
       });
   });
 
-  describe('Invalid req/res', () => {
-
-    test(
-      'should throw an error if schema is invalid',
-      () => {
-        superagent.post(':8888/api/v1/bo')
-          .ok(res => res.status < 500)
-          .send({title: 'tt', author: 'au'})
-          .catch(err => expect(err.status).toEqual(500));
-      });
-  });
 });
