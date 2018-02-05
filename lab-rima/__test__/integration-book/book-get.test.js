@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const server = require('../../lib/server');
 const superagent = require('superagent');
@@ -16,12 +16,12 @@ describe('GET', function() {
     beforeAll(() => {
       return superagent.post(':8888/api/v1/book')
         .send({title: 'Test', author: 'Testing'})
-        .then(res => postOne = res)
+        .then(res => postOne = res);
     });
     // get a specific record
     beforeAll(() => {
       return superagent.get(':8888/api/v1/book/' + postOne.body._id)
-        .then(res => getOne = res)
+        .then(res => getOne = res);
     });
     //delete all data
     afterAll(() => {
@@ -33,21 +33,23 @@ describe('GET', function() {
       test(
         'should contain id',
         () => {
-          expect(getOne.body._id).toMatch(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0    -9a-f]{12}/);
-      });
+          expect(getOne.body._id).toEqual(postOne.body._id);
+          expect(getOne.body.title).toEqual(postOne.body.title);
+          expect(getOne.body.author).toEqual(postOne.body.author);
+        });
 
       test(
         'should return http status 200',
         () => {
           expect(getOne.status).toBe(200);
-      });
+        });
 
       test(
         'should contain title and author that has been created in test',
         () => {
           expect(getOne.body.title).toContain(postOne.body.title);
           expect(getOne.body.author).toContain(postOne.body.author);
-      });
+        });
     });
 
     describe('Invalid input', () => {
@@ -60,8 +62,8 @@ describe('GET', function() {
             .catch(err => {
               expect(err.status).toEqual(404);
               expect(err.message).toBe('Path Error. Route not found.');
-            })
-      })
+            });
+        });
       test(
         'should throw an error if item does not exist',
         () => {
@@ -69,9 +71,9 @@ describe('GET', function() {
             .ok(res => res.status < 500)
             .catch(err => {
               expect(err.status).toEqual(404);
-            })
-      })
-   });
+            });
+        });
+    });
 
   });
 
@@ -83,17 +85,17 @@ describe('GET', function() {
     beforeAll(() => {
       return superagent.post(':8888/api/v1/book')
         .send({title: 'Test', author: 'Testing'})
-        .then(res => postOne = res)
+        .then(res => postOne = res);
     });
     beforeAll(() => {
       return superagent.post(':8888/api/v1/book')
         .send({title: 'test', author: 'testing'})
-        .then(res => postTwo = res)
+        .then(res => postTwo = res);
     });
     // get all data
     beforeAll(() => {
       return superagent.get(':8888/api/v1/book')
-        .then(res => getAll = res)
+        .then(res => getAll = res);
     });
     // delete all data
     afterAll(() => {
@@ -105,8 +107,8 @@ describe('GET', function() {
         'should return http status 200',
         () => {
           //expect(getAll.status).toBe(200);
-        superagent.get(':8888/api/v1/book').then(res => expect(res.status).toBe(200));
-      });
+          superagent.get(':8888/api/v1/book').then(res => expect(res.status).toBe(200));
+        });
 
       test(
         'should contain two ids that have been created in test',
@@ -117,7 +119,7 @@ describe('GET', function() {
           }
           expect(ids.includes(postOne.body._id)).toBeTruthy();
           expect(ids.includes(postTwo.body._id)).toBeTruthy();
-      });
+        });
     });
 
     describe('Invalid input', () => {
@@ -130,8 +132,8 @@ describe('GET', function() {
             .catch(err => {
               expect(err.status).toEqual(404);
               expect(err.message).toBe('Path Error. Route not found.');
-            })
-      })
+            });
+        });
 
     });
   });

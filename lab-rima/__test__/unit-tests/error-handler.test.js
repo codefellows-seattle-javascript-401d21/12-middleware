@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const errorHandler = require('../../lib/error-handler');
 
@@ -53,4 +53,4 @@ describe('Error handler module', function() {
     });
 
   });
-})
+});

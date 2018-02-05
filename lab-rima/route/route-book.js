@@ -4,7 +4,7 @@ const Book = require('../model/book');
 const storage = require('../lib/storage');
 const bodyParser = require('body-parser').json();
 const errorHandler = require('../lib/error-handler');
-const debug = require('debug')('http:route-book');
+//const debug = require('debug')('http:route-book');
 
 
 module.exports = function(router){
@@ -39,7 +39,7 @@ module.exports = function(router){
   router.delete('/book/:_id', bodyParser, (req, res) => {
     storage.deleteOne('book', req.params._id)
       .then(() => res.status(200).end())
-      .catch(err => {console.log(err.message); errorHandler(err, res)});
+      .catch(err => {console.log(err.message); errorHandler(err, res);});
   });
 
   router.delete('/book', (req, res) => {

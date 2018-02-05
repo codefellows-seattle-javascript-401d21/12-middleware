@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const Book = require('../../model/book');
 
@@ -9,7 +9,7 @@ describe('Book module', function () {
 
     test('Create a book model', () => {
       new Book('Title', 'Author')
-      .then(res => expect(res.title).toBe('Title'))
+        .then(res => expect(res.title).toBe('Title'));
     });
 
   });
@@ -18,12 +18,12 @@ describe('Book module', function () {
 
     test('throws an error if empty string for title', () => {
       new Book('', 'Author')
-      .catch(err => expect(err.message).toBe('Validation Error. Title and author required.'));
+        .catch(err => expect(err.message).toBe('Validation Error. Title and author required.'));
     });
 
     test('throws an error if no author passed', () => {
       new Book('Title')
-      .catch(err => expect(err.message).toBe('Validation Error. Title and author required.'));
+        .catch(err => expect(err.message).toBe('Validation Error. Title and author required.'));
     });
 
   });

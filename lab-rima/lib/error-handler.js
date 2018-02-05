@@ -2,8 +2,8 @@
 
 module.exports = function(err, res){
   let msg = err.message.toLowerCase();
-console.log('error handler', msg);
-/*  switch(true){
+//  console.log('error handler', msg);
+  /*  switch(true){
     case msg.includes('validation error'):
       return res.status(400).send(`${err.name}: ${err.message}`);
       break;
@@ -20,7 +20,7 @@ console.log('error handler', msg);
   if(msg.includes('validation error')){
     return res.status(400).send(`${err.name}: ${err.message}`);
   }
-  if(msg.includes('enoent')){
+  if(msg.includes('no such file')){
     return res.status(404).send(`${err.name}: ${err.message}`);
   }
   if(msg.includes('path error')){

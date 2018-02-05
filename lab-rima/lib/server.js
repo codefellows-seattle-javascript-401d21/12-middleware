@@ -33,7 +33,7 @@ server.start = function(port, callback){
   server.http = app.listen(port, callback);
 };
 
-server.stop = function(){
+server.stop = function(callback){
   if(!server.isOn){
     return callback(new Error('Server not running.'));
   }

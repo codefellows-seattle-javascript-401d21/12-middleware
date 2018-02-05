@@ -17,7 +17,7 @@ describe('POST /api/v1/book', () => {
     beforeAll(() => {
       return superagent.post(':8888/api/v1/book')
         .send({title: 'Test', author: 'Testing'})
-        .then(res => resOne = res)
+        .then(res => resOne = res);
     });
 
     test(
@@ -30,8 +30,8 @@ describe('POST /api/v1/book', () => {
     test(
       'should respond with http res status 201',
       () => {
-       expect(resOne.status).toBe(201);
-     });
+        expect(resOne.status).toBe(201);
+      });
 
     test(
       'should have an _id property on the response object',
@@ -46,9 +46,9 @@ describe('POST /api/v1/book', () => {
       'should throw an error if schema is invalid',
       () => {
         superagent.post(':8888/api/v1/bo')
-          .send({title: 'tt', author: 'au'})
           .ok(res => res.status < 500)
+          .send({title: 'tt', author: 'au'})
           .catch(err => expect(err.status).toEqual(500));
-    });
+      });
   });
 });

@@ -43,41 +43,43 @@ describe('PUT /', () => {
       () => {
         expect(getOne.body.title).toEqual('Update');
         expect(getOne.body.author).toEqual('Updating');
-    });
+      });
 
     test(
       'should respond with http res status 204',
       () => {
         expect(putOne.status).toBe(204);
-    });
+      });
   });
 
   describe('Invalid input', () => {
-    let postTwo, putTwo, getTwo;
 
+    let postTwo;
     // post an existing book to use it in test
     beforeAll(() => {
       return superagent.post(':8888/api/v1/book')
         .send({ title: 'Test2', author: 'Testing2' })
         .then(res => { postTwo = res; });
     });
-
-    // update an existing book to use it in test
-/*    beforeAll(() => {
-      return superagent.put(':8888/api/v1/book/' + postTwo.body._id)
-        .send({ title: 'Update2' })
-        .then(res => { putTwo = res; });
-    });
-*/
-    // get an existing book to use it in test
-    beforeAll(() => {
-      return superagent.get(':8888/api/v1/book/' + postTwo.body._id)
-        .then(res => { getTwo = res; });
-    });
-    
     // delete all data
     afterAll(() => {
       return superagent.del(':8888/api/v1/book');
+    });
+
+    test('should return a status 400 if no title is passed', () => {
+      return superagent.put(':8888/api/v1/book/' + postTwo.body._id)
+        .send({ author: 'Update2' })
+        .ok(res => res.status < 500)
+        .catch(err => expect(err.status).toBe(400));
+    });
+
+    test('should return a status 400 if no author is passed', () => {
+      return superagent.put(':8888/api/v1/book/' + postTwo.body._id)
+        .send({ title: 'Update2' })
+        .ok(res => res.status < 500)
+        .catch(err => { 
+          expect(err.status).toBe(400);
+        });
     });
   });
 });

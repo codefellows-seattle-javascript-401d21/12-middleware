@@ -16,8 +16,8 @@ module.exports = function(title, author){
     this.title = title;
     this.author = author;
 
+    debug(`Created a note: Title: ${this.title}, Author: ${this.author}, ID: ${this._id}`);
     return resolve(this);
 
-    debug(`Created a note: Title: ${this.title}, Author: ${this.author}, ID: ${this._id}`);
   });
 };
