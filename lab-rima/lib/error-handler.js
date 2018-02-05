@@ -17,10 +17,13 @@ module.exports = function(err, res){
       return res.status(500).send(`${err.name}: ${err.message}`);
   }
 */
+  if(msg.includes('cannot get')){
+    return res.status(404).send(`${err.name}: ${err.message}`);
+  }
   if(msg.includes('validation error')){
     return res.status(400).send(`${err.name}: ${err.message}`);
   }
-  if(msg.includes('no such file')){
+  if(msg.includes('invalid id')){
     return res.status(404).send(`${err.name}: ${err.message}`);
   }
   if(msg.includes('path error')){

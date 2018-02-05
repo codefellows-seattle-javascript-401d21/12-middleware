@@ -9,23 +9,11 @@ describe('Storage module', function () {
 
   beforeAll(() => server.start(8888, () => {console.log('Listening on 8888');}));
   afterAll(() => server.stop());
+  afterAll(() => db.deleteAll('book'));
 
   describe('Create method', function () {
   
     describe('Valid input', function () {
-
-      test('should return resolve', () => {
-        let b1;
-        new Book('testT1', 'testA1')
-          .then(book => {
-            b1 = book;
-            db.create('book', book);})
-          .then(book => db.fetchOne('book', b1._id))
-          .then(item => {
-            expect(item.title).toEqual(b1.title);
-            expect(item.author).toEqual(b1.author);
-            expect(item._id).toEqual(b1._id);});
-      });
 
       test('should actually save a new data in storage', () => {
         let b1;
@@ -35,6 +23,7 @@ describe('Storage module', function () {
             db.create('book', book);})
           .then(book => db.fetchOne('book', b1._id))
           .then((item) => {
+            item = JSON.parse(item.toString())
             expect(item.title).toEqual(b1.title);
             expect(item.author).toEqual(b1.author);
             expect(item._id).toEqual(b1._id);});
@@ -51,12 +40,11 @@ describe('Storage module', function () {
         new Book('testT3', 'testA3')
           .then(book => db.create('book', book))
           .then(book => db.fetchOne('book', book._id))
-          .then(book => b1 = book)
-          .then((item) => {
+          .then(book => {
+            b1 = JSON.parse(book.toString());
             expect(item.title).toEqual(b1.title);
             expect(item.author).toEqual(b1.author);
-            expect(item._id).toEqual(b1._id);
-          });
+            expect(item._id).toEqual(b1._id);})
       });
 
       test('should get all books when no id passed', () => {
@@ -90,11 +78,10 @@ describe('Storage module', function () {
 
       test('should update a data in database', () => {
         new Book('testT7', 'testA7')
-          .then(book => {
-            db.update('book', book._id, {title: 'update title', author: 'update author'});
-            db.fetchOne('book', book._id);
-          })
+          .then(book => db.update('book', book._id, {title: 'update title', author: 'update author'}))
+          .then(book => db.fetchOne('book', book._id))
           .then((item) => {
+            item = JSON.parse(item.toString());
             expect(item.title).toEqual('update title');
             expect(item.author).toEqual('update author');
           });
@@ -111,14 +98,12 @@ describe('Storage module', function () {
         new Book('testT8', 'testA8')
           .then(book => db.create('book', book))
           .then(book => {
-            b1 = book;
-            db.deleteOne('book', book._id);})
+            b1 = JSON.parse(book.toString());
+            db.deleteOne('book', b1._id);})
           .then(() => db.fetchOne('book', b1._id))
-          .catch(err => expect(err.status).toBe(404));
+          .catch(err => err)
       });
 
-      test('should delete all data', () => {
-      });
     });
   });
 

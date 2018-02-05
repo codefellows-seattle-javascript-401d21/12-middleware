@@ -51,7 +51,6 @@ describe('DELETE', () => {
         'should delete one record',
         () => {
           expect(getOne.status).toBe(404);
-          //expect(getOne.response.text).toEqual('404, Record does not exist');
         });
 
       test(

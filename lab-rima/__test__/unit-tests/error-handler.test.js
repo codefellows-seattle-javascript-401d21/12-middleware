@@ -27,10 +27,10 @@ describe('Error handler module', function() {
 
   });
 
-  describe('404 enoent', () => {
+  describe('404 ivalid id', () => {
 
-    test('return a status 404 with enoent', () => {
-      let err = new Error('ENOENT');
+    test('return a status 404 with invalid id', () => {
+      let err = new Error('invalid id');
       expect(errorHandler(err, new mockRes()).resStatus).toBe(404);
     });
 

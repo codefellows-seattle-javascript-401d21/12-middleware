@@ -14,13 +14,13 @@ module.exports = function(router){
       .then(buffer => buffer.toString())
       .then(json => JSON.parse(json))
       .then(item => res.status(200).json(item))
-      .catch(err => errorHandler(err, res));
+      .catch(err => errorHandler(new Error('Invalid ID'), res));
   });
 
   router.get('/book', (req, res) => {
     storage.fetchAll('book')
       .then(items => res.status(200).json(items))
-      .catch(err => errorHandler(err, res));
+//      .catch(err => errorHandler(err, res));
   });
 
   router.post('/book', bodyParser, (req, res) => {
@@ -39,7 +39,7 @@ module.exports = function(router){
   router.delete('/book/:_id', bodyParser, (req, res) => {
     storage.deleteOne('book', req.params._id)
       .then(() => res.status(200).end())
-      .catch(err => {console.log(err.message); errorHandler(err, res);});
+      .catch(err => {errorHandler(err, res);});
   });
 
   router.delete('/book', (req, res) => {
