@@ -2,7 +2,7 @@
 
 module.exports = function(err, res){
   let msg = err.message.toLowerCase();
-//  console.log('error handler', msg);
+  //  console.log('error handler', msg);
   /*  switch(true){
     case msg.includes('validation error'):
       return res.status(400).send(`${err.name}: ${err.message}`);

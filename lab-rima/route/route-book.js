@@ -14,13 +14,13 @@ module.exports = function(router){
       .then(buffer => buffer.toString())
       .then(json => JSON.parse(json))
       .then(item => res.status(200).json(item))
-      .catch(err => errorHandler(new Error('Invalid ID'), res));
+      .catch(() => errorHandler(new Error('Invalid ID'), res));
   });
 
   router.get('/book', (req, res) => {
     storage.fetchAll('book')
-      .then(items => res.status(200).json(items))
-//      .catch(err => errorHandler(err, res));
+      .then(items => res.status(200).json(items));
+    //      .catch(err => errorHandler(err, res));
   });
 
   router.post('/book', bodyParser, (req, res) => {

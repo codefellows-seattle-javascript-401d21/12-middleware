@@ -1,7 +1,6 @@
 'use strict';
 
 //const debug = require('debug')('http:storage');
-const eH = require('./error-handler');
 const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'), {suffix: 'Prom'});
 const storage = module.exports = {};
@@ -9,7 +8,7 @@ const storage = module.exports = {};
 
 storage.fetchOne = (schema, itemId) => {
   return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)
-    .then((item) => item)
+    .then((item) => item);
 //    .catch(err => eH(err))
 };
 
@@ -22,25 +21,25 @@ storage.fetchAll = (schema) => {
         filesArr.push(JSON.parse(x));
       });
     })
-    .then(() => filesArr)
+    .then(() => filesArr);
 //    .catch(err => eH(err))
 };
 
 storage.create = (schema, item) => {
   let itemJson = JSON.stringify(item);
   return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, itemJson)
-    .then(() => item)
+    .then(() => item);
 //    .catch(err => eH(err))
 };
 
 storage.update = (schema, itemId, newData) => {
   let itemJson = JSON.stringify(newData);
-  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, itemJson)
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, itemJson);
 //    .catch(err => eH(err))
 };
 
 storage.deleteOne = (schema, itemId) => {
-  return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`)
+  return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
 //    .catch(err => {throw err})
 };
 
@@ -50,6 +49,6 @@ storage.deleteAll = (schema) => {
       files.forEach(function(filename){
         fs.unlinkProm(`${__dirname}/../data/${schema}/${filename}`);
       });
-    })
+    });
 //    .catch(err => eH(err))
 };
