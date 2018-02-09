@@ -1,7 +1,6 @@
 'use strict'
 
 const Note = require('../../model/note')
-require('jest')
 
 describe('Note Data Structure Module', function () {
   let newNote
