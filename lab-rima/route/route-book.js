@@ -19,8 +19,8 @@ module.exports = function(router){
 
   router.get('/book', (req, res) => {
     storage.fetchAll('book')
-      .then(items => res.status(200).json(items));
-    //      .catch(err => errorHandler(err, res));
+      .then(items => res.status(200).json(items))
+      .catch(err => errorHandler(err, res));
   });
 
   router.post('/book', bodyParser, (req, res) => {

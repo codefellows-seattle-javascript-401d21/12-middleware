@@ -8,8 +8,8 @@ const storage = module.exports = {};
 
 storage.fetchOne = (schema, itemId) => {
   return fs.readFileProm(`${__dirname}/../data/${schema}/${itemId}.json`)
-    .then((item) => item);
-//    .catch(err => eH(err))
+    .then((item) => item)
+    .catch(err => err);
 };
 
 storage.fetchAll = (schema) => {
@@ -21,26 +21,26 @@ storage.fetchAll = (schema) => {
         filesArr.push(JSON.parse(x));
       });
     })
-    .then(() => filesArr);
-//    .catch(err => eH(err))
+    .then(() => filesArr)
+    .catch(err => err);
 };
 
 storage.create = (schema, item) => {
   let itemJson = JSON.stringify(item);
   return fs.writeFileProm(`${__dirname}/../data/${schema}/${item._id}.json`, itemJson)
-    .then(() => item);
-//    .catch(err => eH(err))
+    .then(() => item)
+    .catch(err => err);
 };
 
 storage.update = (schema, itemId, newData) => {
   let itemJson = JSON.stringify(newData);
-  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, itemJson);
-//    .catch(err => eH(err))
+  return fs.writeFileProm(`${__dirname}/../data/${schema}/${itemId}.json`, itemJson)
+    .catch(err => err);
 };
 
 storage.deleteOne = (schema, itemId) => {
-  return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`);
-//    .catch(err => {throw err})
+  return fs.unlinkProm(`${__dirname}/../data/${schema}/${itemId}.json`)
+    .catch(err => {throw err;});
 };
 
 storage.deleteAll = (schema) => {
@@ -49,6 +49,6 @@ storage.deleteAll = (schema) => {
       files.forEach(function(filename){
         fs.unlinkProm(`${__dirname}/../data/${schema}/${filename}`);
       });
-    });
-//    .catch(err => eH(err))
+    })
+    .catch(err => err);
 };

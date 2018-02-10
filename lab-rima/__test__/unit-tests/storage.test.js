@@ -17,16 +17,18 @@ describe('Storage module', function () {
 
       test('should actually save a new data in storage', () => {
         let b1;
-        new Book('testT3', 'testA3')
+        return new Book('testT3', 'testA3')
           .then(book => db.create('book', book))
           .then(book => {
             b1 = book;
-            db.fetchOne('book', book._id);})
-          .then(book => {
-            book = JSON.parse(book.toString());
-            expect(book.title).toEqual(b1.title);
-            expect(book.author).toEqual(b1.author);
-            expect(book._id).toEqual(b1._id);});
+            return db.fetchOne('book', b1._id)
+              .then(book => {
+                book = JSON.parse(book.toString());
+                expect(book.title).toEqual(b1.title);
+                expect(book.author).toEqual(b1.author);
+                expect(book._id).toEqual(b1._id);
+              });
+          });
       });
     });
   });
@@ -37,16 +39,18 @@ describe('Storage module', function () {
 
       test('should get one book by id', () => {
         let b1;
-        new Book('testT3', 'testA3')
+        return new Book('testT3', 'testA3')
           .then(book => db.create('book', book))
           .then(book => {
             b1 = book;
-            db.fetchOne('book', book._id);})
-          .then(book => {
-            book = JSON.parse(book.toString());
-            expect(book.title).toEqual(b1.title);
-            expect(book.author).toEqual(b1.author);
-            expect(book._id).toEqual(b1._id);});
+            return db.fetchOne('book', book._id)
+              .then(book => {
+                book = JSON.parse(book.toString());
+                expect(book.title).toEqual(b1.title);
+                expect(book.author).toEqual(b1.author);
+                expect(book._id).toEqual(b1._id);
+              });
+          });
       });
 
       test('should get all books when no id passed', () => {
@@ -79,13 +83,19 @@ describe('Storage module', function () {
     describe('Valid input', () => {
 
       test('should update a data in database', () => {
-        new Book('testT7', 'testA7')
-          .then(book => db.update('book', book._id, {title: 'update title', author: 'update author'}))
-          .then(book => db.fetchOne('book', book._id))
-          .then((item) => {
-            item = JSON.parse(item.toString());
-            expect(item.title).toEqual('update title');
-            expect(item.author).toEqual('update author');
+        let b1;
+        return new Book('testT7', 'testA7')
+          .then(book => {
+            b1 = book;
+            return db.update('book', book._id, {title: 'update title', author: 'update author'})
+              .then(() => {
+                return db.fetchOne('book', b1._id)
+                  .then((item) => {
+                    item = JSON.parse(item.toString());
+                    expect(item.title).toEqual('update title');
+                    expect(item.author).toEqual('update author');
+                  });
+              });
           });
       });
     });
@@ -97,7 +107,7 @@ describe('Storage module', function () {
 
       test('should delete a data from database', () => {
         let b1;
-        new Book('testT8', 'testA8')
+        return new Book('testT8', 'testA8')
           .then(book => db.create('book', book))
           .then(book => {
             b1 = JSON.parse(book.toString());

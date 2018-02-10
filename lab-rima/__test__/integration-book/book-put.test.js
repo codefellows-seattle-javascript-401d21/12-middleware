@@ -2,12 +2,14 @@
 
 const server = require('../../lib/server');
 const superagent = require('superagent');
+const storage = require('../../lib/storage');
 
 
 describe('PUT /', () => {
 
   beforeAll(() => server.start(8888, () => {console.log('Listening on 8888');}));
   afterAll(() => server.stop());
+  afterAll(() => storage.deleteAll('book'));
 
   describe('Valid input', () => {
     let postOne, putOne, getOne;

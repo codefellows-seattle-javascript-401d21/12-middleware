@@ -14,7 +14,7 @@ app.use(cors());
 
 // Route setup
 require('../route/route-book')(router);
-app.use(/*'/*'*/'/{0,}', (req, res) => {
+app.use('/{0,}', (req, res) => {
   errorHandler(new Error('Path Error. Route not found.'), res);
 });
 

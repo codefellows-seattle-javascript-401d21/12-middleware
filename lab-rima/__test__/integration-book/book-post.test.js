@@ -2,13 +2,15 @@
 
 const server = require('../../lib/server');
 const superagent = require('superagent');
-
+const storage = require('../../lib/storage');
 
 
 describe('POST /api/v1/book', () => {
 
-  beforeAll(() => server.start(8888/*process.env.PORT*/, () => {console.log('Listening on 8888/*${process.env.PORT}`*/');}));
+  beforeAll(() => server.start(8888/*process.env.PORT*/, () => {console.log('Listening on 8888');}));
   afterAll(() => server.stop());
+  afterAll(() => storage.deleteAll('book'));
+
 
   let resOne;
   describe('Valid req/res', () => {
